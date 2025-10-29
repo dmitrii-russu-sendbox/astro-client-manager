@@ -14,8 +14,10 @@
            value="${person.getBirthDate() != null ? person.getBirthDate().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE) : ""}"><br>
 
     <label>Время рождения:</label><br>
-    <input type="time" name="birthTime"
-           value="${person.getBirthTime() != null ? person.getBirthTime().format(java.time.format.DateTimeFormatter.ISO_LOCAL_TIME) : ""}"><br>
+    <input type="time"
+           name="birthTime"
+           step="1"
+           value="${person.getBirthTime() != null ? person.getBirthTime().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss")) : ""}"><br>
 
     <label>Место рождения:</label><br>
     <input type="text" name="birthPlace" value="${person.getBirthPlace()}"><br>

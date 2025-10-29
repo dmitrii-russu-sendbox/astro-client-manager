@@ -6,7 +6,7 @@
 <p>
     <strong>ID:</strong> ${person.getId()}<br>
     <strong>Name:</strong> ${person.getName()}<br>
-    <strong>Birth Date:</strong> @if(person.getBirthDate() != null)${person.getBirthDate().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE)}@else N/A@endif<br>
+    <strong>Birth Date:</strong> @if(person.getBirthDate() != null)${person.getBirthDate().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))}@else N/A@endif<br>
     <strong>Birth Time:</strong> @if(person.getBirthTime() != null)${person.getBirthTime().format(java.time.format.DateTimeFormatter.ISO_LOCAL_TIME)}@else N/A@endif<br>
     <strong>Birth Place:</strong> ${person.getBirthPlace()}<br>
     <strong>Category:</strong> ${person.getCategory()}<br>

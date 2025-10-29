@@ -45,4 +45,8 @@ public class PersonService {
         repository.delete(person);
     }
 
+    public List<Person> findByBirthMonthOrderedByDay(int month) {
+        return repository.findByBirthMonthOrderByDayAsc(month);
+    }
+
 }

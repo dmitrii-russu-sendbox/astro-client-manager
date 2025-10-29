@@ -3,11 +3,28 @@
 
 @param List<Person> persons
 @param String searchTerm
+@param String searchType
 
-@if (persons.isEmpty())<h2>Клиента по имени: "${searchTerm}" не найдено!</h2>
+@if ("month".equals(searchType))
+    @if (persons.isEmpty())
+        <h2>Найдено 0 клиентов за ${searchTerm}</h2>
+    @else
+        <h2>Клиенты за ${searchTerm}</h2>
+    @endif
+
+@elseif ("all".equals(searchType))
+    @if (persons.isEmpty())
+        <h2>В базе пока нет клиентов</h2>
+    @else
+        <h2>Все клиенты:</h2>
+    @endif
+
 @else
-@if ("(все клиенты)".equals(searchTerm))<h2>Все клиенты:</h2>
-@else<h2>Результаты поиска клиента по имени: "${searchTerm}"</h2>@endif
+    @if (persons.isEmpty())
+        <h2>Клиент по имени "${searchTerm}" не найден!</h2>
+    @else
+        <h2>Результаты поиска клиента по имени: "${searchTerm}"</h2>
+    @endif
 @endif
 
 @for (Person i : persons)

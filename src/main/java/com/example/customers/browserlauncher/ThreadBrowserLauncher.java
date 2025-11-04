@@ -1,38 +1,44 @@
 package com.example.customers.browserlauncher;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationListener;
+import org.springframework.boot.web.context.WebServerApplicationContext;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
 import java.awt.*;
 import java.net.URI;
 
 @Component
-public class BrowserLauncher implements ApplicationListener<ApplicationReadyEvent> {
+@Profile("thread")
+public class ThreadBrowserLauncher {
 
-    @Value("${server.port:8082}")
-    private String port;
+    private final WebServerApplicationContext context;
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        // Это событие возникает когда приложение полностью готово
-        openBrowserWithDelay();
+    public ThreadBrowserLauncher(WebServerApplicationContext context) {
+        this.context = context;
     }
 
-    private void openBrowserWithDelay() {
+    @EventListener(ApplicationReadyEvent.class)
+    public void onReady() {
+
+        if (!(context instanceof WebServerApplicationContext webCtx)) return;
+        int port = webCtx.getWebServer().getPort();
+        String url = "http://localhost:" + port;
+
         new Thread(() -> {
             try {
-                // Ждем дополнительно 2 секунды после ready event
-                Thread.sleep(2000);
+                Thread.sleep(2000); // короткая задержка для надёжности
                 openBrowser();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            } catch (Exception e) {
+                System.out.println("Please open manually: " + url);
             }
         }).start();
     }
 
     private void openBrowser() {
+
+        if (!(context instanceof WebServerApplicationContext webCtx)) return;
+        int port = webCtx.getWebServer().getPort();
         String url = "http://localhost:" + port;
 
         try {
@@ -44,7 +50,6 @@ public class BrowserLauncher implements ApplicationListener<ApplicationReadyEven
                 }
             }
 
-            // Fallback для разных ОС
             Runtime runtime = Runtime.getRuntime();
             String os = System.getProperty("os.name").toLowerCase();
 
@@ -60,4 +65,5 @@ public class BrowserLauncher implements ApplicationListener<ApplicationReadyEven
             System.out.println("Please open browser manually: " + url);
         }
     }
+
 }

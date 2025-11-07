@@ -9,7 +9,7 @@ import com.example.customers.service.PersonService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping({"", "/", "/persons"})
+@RequestMapping({"", "/", "/customers"})
 public class PersonViewController {
 
     private final PersonService service;
@@ -19,6 +19,12 @@ public class PersonViewController {
     }
 
     @GetMapping
+    public String maiPage() {
+        return "customers/layout/main";
+    }
+
+
+    @GetMapping("/searchForm")
     public String showSearchForm(
             @ModelAttribute("error") String error,
             @ModelAttribute("message") String message,
@@ -26,7 +32,7 @@ public class PersonViewController {
     ) {
         model.addAttribute("error", error);
         model.addAttribute("message", message);
-        return "person/form/main-page-search"; // Main page
+        return "customers/pages/form/main-page-search";
     }
 
     @GetMapping("/newOrEdit")
@@ -35,7 +41,7 @@ public class PersonViewController {
     ) {
         Person person = service.findByExactName(name).orElse(new Person());
         model.addAttribute("person", person);
-        return "person/form/create-edit-form";
+        return "customers/pages/form/create-edit-form";
     }
 
     @GetMapping("/confirm-delete")
@@ -43,10 +49,10 @@ public class PersonViewController {
         Optional<Person> personOpt = service.findByExactName(name);
         if (personOpt.isPresent()) {
             model.addAttribute("person", personOpt.get());
-            return "person/form/delete-confirm-form";
+            return "customers/pages/form/delete-confirm-form";
         } else {
             model.addAttribute("message", "Клиент с именем '" + name + "' не найден");
-            return "person/form/main-page-search"; // или отдельная страница ошибки
+            return "customers/pages/form/main-page-search";
         }
     }
 

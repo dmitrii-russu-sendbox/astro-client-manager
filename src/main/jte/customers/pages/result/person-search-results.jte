@@ -5,6 +5,8 @@
 @param String searchTerm
 @param String searchType
 
+@template.customers.layout.main(content = @`
+
 @if ("month".equals(searchType))
     @if (persons.isEmpty())
         <h2>Найдено 0 клиентов за ${searchTerm}</h2>
@@ -30,15 +32,23 @@
 @for (Person i : persons)
     <li>
         ID: ${i.getId()} — ${i.getName()}
-        <a href="/persons/search?name=${i.getName()}">Выбрать</a>&nbsp;
-        <a href="/persons/newOrEdit?name=${i.getName()}">Редактировать</a>
-        <a href="/persons/confirm-delete?name=${i.getName()}">Удалить</a>
+        <a href="/customers/search?name=${i.getName()}">Выбрать</a>&nbsp;
+        <a href="/customers/newOrEdit?name=${i.getName()}">Редактировать</a>
+        <a href="/customers/confirm-delete?name=${i.getName()}">Удалить</a>
 
     </li>
 @endfor
 
 <hr>
-<form action="/" method="get">
-    <button type="submit">ToMainPage</button>
+<form action="/searchForm" method="get">
+    <button type="submit">Перейти в рабочий кабинет астролога</button>
 </form>
 <hr>
+
+    <hr>
+    <form action="/" method="get">
+        <button type="submit">Вернуться на главную страницу</button>
+    </form>
+    <hr>
+
+`)

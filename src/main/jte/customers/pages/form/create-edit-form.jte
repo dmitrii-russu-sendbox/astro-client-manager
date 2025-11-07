@@ -1,11 +1,18 @@
 @param String error
 @param com.example.customers.entity.Person person
 
+@template.customers.layout.main(content = @`
+
 @if (error != null) <p>${error}</p> @endif
 
 <h2>${person.getName() != null ? "Редактировать" : "Создать"} клиента</h2>
 
-<form action="/persons/save" method="post">
+<form action="/customers/save" method="post">
+
+    @if (person.getId() != null)
+        <input type="hidden" name="id" value="${person.getId()}">
+    @endif
+
     <label>Имя:</label><br>
     <input type="text" name="name" value="${person.getName()}" required><br>
 
@@ -31,7 +38,14 @@
     <button type="submit">Сохранить</button>
 </form>
 
+    <hr>
+    <form action="/searchForm" method="get">
+        <button type="submit">Перейти в рабочий кабинет астролога</button>
+    </form>
+
 <hr>
 <form action="/" method="get">
-    <button type="submit">На главную</button>
+    <button type="submit">На главную страницу</button>
 </form>
+
+`)

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/persons")
+@RequestMapping("/customers")
 public class PersonCommandController {
 
     private PersonService service;
@@ -28,7 +28,7 @@ public class PersonCommandController {
         model.addAttribute("person", saved);
         model.addAttribute("message", "Клиент сохранён или обновлён");
         String encodedName = URLEncoder.encode(saved.getName(), StandardCharsets.UTF_8);
-        return "redirect:/persons/search?name=" + encodedName;
+        return "redirect:/customers/search?name=" + encodedName;
     }
 
     @PostMapping("/delete")
@@ -40,7 +40,7 @@ public class PersonCommandController {
         } else {
             redirectAttributes.addFlashAttribute("error", "Клиент с именем '" + name + "' не найден. Удаление невозможно.");
         }
-        return "redirect:/persons";
+        return "redirect:/searchForm";
     }
 
 

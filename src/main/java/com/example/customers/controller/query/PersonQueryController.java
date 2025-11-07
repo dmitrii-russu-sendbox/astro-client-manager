@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.customers.service.PersonService;
 
 @Controller
-@RequestMapping({"", "/", "/persons"})
+@RequestMapping({"", "/", "/customers"})
 public class PersonQueryController {
 
     private final PersonService service;
@@ -33,7 +33,7 @@ public class PersonQueryController {
             Optional<Person> exact = service.findByExactName(name.trim());
             if (exact.isPresent()) {
                 model.addAttribute("person", exact.get());
-                return "person/result/person-details";
+                return "customers/pages/result/person-details";
             }
         }
 
@@ -45,7 +45,7 @@ public class PersonQueryController {
         model.addAttribute("searchTerm", all ? "(все клиенты)" : name);
         model.addAttribute("searchType", all ? "all" : "name");
 
-        return "person/result/person-search-results";
+        return "customers/pages/result/person-search-results";
     }
 
     // 🔹 Поиск по месяцу рождения
@@ -61,6 +61,7 @@ public class PersonQueryController {
         model.addAttribute("searchTerm", monthName);
         model.addAttribute("searchType", "month");
 
-        return "person/result/person-search-results";
+        return "customers/pages/result/person-search-results";
     }
+
 }

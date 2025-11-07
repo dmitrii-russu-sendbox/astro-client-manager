@@ -2,7 +2,9 @@
 @param String message
 @param com.example.customers.entity.Person person
 
-<h2>Main page</h2>
+@template.customers.layout.main(content = @`
+
+<h2>Рабочий кабинет всемирно-известного астролога и коуча Руссу Анастасии Павловны</h2>
 
 <h2>Поиск клиента по имени</h2>
 
@@ -25,7 +27,7 @@
 
 <h2>Найти клиента по месяцу рождения</h2>
 
-<form action="/persons/searchByMonth" method="get">
+<form action="/customers/searchByMonth" method="get">
     <label for="month">Выберите месяц рождения:</label>
     <select name="month" id="month" required>
         <option value="1">Январь</option>
@@ -55,6 +57,9 @@
 </form>
 <hr>
 
-<script>
-    setInterval(() => fetch('/ping'), 3000);
-</script>
+    <h2>На главную страницу</h2>
+    <form action="/" method="get">
+        <button type="submit">Вернуться на главную страницу</button>
+    </form>
+
+`)

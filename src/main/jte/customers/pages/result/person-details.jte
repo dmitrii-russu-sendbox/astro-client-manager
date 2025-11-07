@@ -1,6 +1,8 @@
 @param String message
 @param com.example.customers.entity.Person person
 
+@template.customers.layout.main(content = @`
+
 <h2>Клиент:</h2>
 
 <p>
@@ -16,7 +18,7 @@
 <h2>Обновить</h2>
 
 <hr>
-<form action="/persons/newOrEdit" method="get">
+<form action="/customers/newOrEdit" method="get">
     <input type="hidden" name="name" value="${person.getName()}">
     <button type="submit">Редактировать</button>
 </form>
@@ -25,18 +27,21 @@
 <h2>Удалить!</h2>
 <hr>
 
-<form action="/persons/confirm-delete" method="get">
+<form action="/customers/confirm-delete" method="get">
     <input type="hidden" name="name" value="${person.getName()}">
     <button type="submit">Удалить</button>
 </form>
 
-
-<hr>
-
-<h2>Вернуться на главную страницу</h2>
+    <hr>
+    <form action="/searchForm" method="get">
+        <button type="submit">Перейти в рабочий кабинет астролога</button>
+    </form>
+    <hr>
 
 <hr>
 <form action="/" method="get">
     <button type="submit">Вернуться на главную страницу</button>
 </form>
 <hr>
+
+`)

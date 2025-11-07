@@ -54,3 +54,7 @@
     <button type="submit">Внести нового клиента в базу данных!</button>
 </form>
 <hr>
+
+<script>
+    setInterval(() => fetch('/ping'), 3000);
+</script>

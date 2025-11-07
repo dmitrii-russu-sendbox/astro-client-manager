@@ -1,7 +1,9 @@
 package com.example.customers.browserlauncher;
 
+import com.example.customers.controller.pingcontroller.PingController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.context.ApplicationContext;
@@ -17,10 +19,12 @@ import java.awt.Desktop;
 public class ThreadBrowserLauncher1 {
 
     private final ApplicationContext context;
+    private final PingController pingController;
     private static final Logger log = LoggerFactory.getLogger(ThreadBrowserLauncher1.class);
 
-    public ThreadBrowserLauncher1(ApplicationContext context) {
+    public ThreadBrowserLauncher1(ApplicationContext context, PingController pingController) {
         this.context = context;
+        this.pingController = pingController;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -34,6 +38,9 @@ public class ThreadBrowserLauncher1 {
             Try.run(() -> Thread.sleep(2000));
             Try.run(() -> openBrowser(url));
         });
+
+        // мониторинг активности браузера
+        Thread.ofVirtual().start(this::monitorBrowserActivity);
     }
 
 
@@ -58,6 +65,19 @@ public class ThreadBrowserLauncher1 {
         }
 
         log.info("✅ Browser opened URL: {}", url);
+    }
+
+
+    private void monitorBrowserActivity() {
+        while (true) {
+            Try.run(() -> Thread.sleep(5000));
+            long idle = System.currentTimeMillis() - pingController.getLastPing();
+            if (idle > 20_000) {
+                log.info("🚪 No ping from browser for 20s — shutting down application.");
+                SpringApplication.exit(context, () -> 0);
+                System.exit(0);
+            }
+        }
     }
 
 }

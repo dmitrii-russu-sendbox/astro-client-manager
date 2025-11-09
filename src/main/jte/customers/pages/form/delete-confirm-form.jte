@@ -31,4 +31,6 @@
         <button type="submit">Вернуться на главную страницу</button>
     </form>
 
-`)
+`,
+birthdays = null
+)

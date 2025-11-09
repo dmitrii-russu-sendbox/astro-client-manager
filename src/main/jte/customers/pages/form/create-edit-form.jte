@@ -48,4 +48,5 @@
     <button type="submit">На главную страницу</button>
 </form>
 
-`)
+`,birthdays = null
+)

@@ -1,11 +1,14 @@
 package com.example.customers.controller.query;
 
 import com.example.customers.entity.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.customers.service.PersonService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -13,13 +16,23 @@ import java.util.Optional;
 public class PersonViewController {
 
     private final PersonService service;
+    private static final Logger log = LoggerFactory.getLogger(PersonViewController.class);
 
     public PersonViewController(PersonService service) {
         this.service = service;
     }
 
-    @GetMapping
+    /*@GetMapping
     public String maiPage() {
+        return "customers/layout/main";
+    }*/
+
+    // 🔹 ТОЛЬКО ГЛАВНАЯ СТРАНИЦА - автопроверка дней рождений
+    @GetMapping
+    public String maiPage(Model model) {
+        List<Person> birthdays = service.findBirthdaysTodayAndTomorrow();
+        log.info("Передача в шаблон {} дней рождений", birthdays.size());
+        model.addAttribute("birthdays", birthdays);
         return "customers/layout/main";
     }
 
